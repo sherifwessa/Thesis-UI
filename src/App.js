@@ -48,7 +48,7 @@ function App() {
               value={essay}
               onChange={(event) => setEssay(event.target.value)}
               placeholder="Paste your essay here..."
-              rows={7}
+              rows={12}
               cols={50}
             />
             <br />
