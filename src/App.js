@@ -5,19 +5,18 @@ import "./loading.css";
 function App() {
   const [essay, setEssay] = useState('');
   const [prompt, setPrompt] = useState('');
-  const [percentage, setPercentage] = useState(null);
+  // const [percentage, setPercentage] = useState(null);
   const [decision, setDecision] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Call your API here and set percentage and decision based on the response
-      // Example:
+     
       // const response = await fetch('API_ENDPOINT', {
       //   method: 'POST',
       //   headers: {
-      //     'Content-Type': 'application/json'
+      //     'Content-Type': 'application/json' 
       //   },
       //   body: JSON.stringify({ essay })
       // });
@@ -28,9 +27,8 @@ function App() {
       // setPercentage(data.percentage);
       // setDecision(data.decision);
 
-      // // For testing purposes, let's set some dummy values
-      const data = { percentage: 80, decision: 'Human-written' };
-      setPercentage(data.percentage);
+      const data = {decision: 'Human-written' };
+      // setPercentage(data.percentage);
       setDecision(data.decision);
     } catch (error) {
       console.error('Error:', error);
@@ -40,7 +38,7 @@ function App() {
   return (
     <div className="container">
       <div className="header">
-        <h1>THESIS!!!</h1>
+        <h1>AI-text Detection Tool</h1>
         <PiDetectiveBold className="icon" />
       </div>
       {!loading && (
@@ -67,25 +65,28 @@ function App() {
               rows={5}
               cols={50}
             />
+            <div>
             <button type="submit">Detect</button>
+            </div>
             </form>
         </div>
       )}
+      
       {loading && (
         <div className="loading-container">
           <div className="loading-spinner"></div>
         </div>
       )}
-      {!loading && percentage !== null && (
-        <div className="result">
-          <h2>Result:</h2>
-          <p>Percentage: {percentage}%</p>
-          <p>Decision: {decision}</p>
-        </div>
-      )}
-    </div>
-  );
-}
+        {!loading && decision !== null && (
+            <div className="result" style={{ backgroundColor: decision === 'Human-written' ? 'green' : decision === 'AI-generated' ? 'red' : '#14457d' }}>
+            {/* <h2>Result:</h2> */}
+            {/* <p>Percentage: {percentage}%</p> */}
+            <p>{decision}</p>
+          </div>
+        )}
+      </div>
+      );}
 
 export default App;
 
+ 
