@@ -6,8 +6,6 @@ import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import APIPage from './APIPage';
 import PaperPage from './PaperPage';
-import Hamburger from 'hamburger-react';
-import { PiDetectiveBold, PiSelectionBackgroundLight } from "react-icons/pi";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import logo from './logo2.png';
