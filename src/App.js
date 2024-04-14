@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import HomePage from './HomePage';
+import LoginPage from './LoginPage';
 import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import APIPage from './APIPage';
@@ -28,11 +29,14 @@ function App() {
             <option>EN</option>
             <option>AR</option>
           </select>
+          <NavLink className="tablinks" activeClassName="active" to="/login">
           <FaCircleUser className="tablinks" color="#007bff" size="35px">Home</FaCircleUser>
+          </NavLink>
         </div>
         <div className="content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/api" element={<APIPage />} />

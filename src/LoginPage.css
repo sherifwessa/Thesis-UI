@@ -1,0 +1,150 @@
+h1{
+    text-align: center;
+    font-size: 2em;
+    color: #ffffff;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+h2{
+    text-align:left;
+    font-size: 20px;
+    color: #ffffff;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+}
+h3{
+    font-size: medium;
+    color: #ffffff;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 300;
+    margin: 0px;
+}
+.mainContainer{
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #071C42;
+}
+.loginContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 470px;
+    width: 500px;
+    background-color: #4a82eb32;
+    margin-top: 10px;
+    margin-bottom: 80px; 
+    margin-left: 500px ;
+    margin-right: 80px ;
+    border-radius: 8px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.formContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color:#4a82eb32; */
+}
+.email,
+.password{
+    margin: 10px;
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    /* border: 1px solid #ba1616; */
+}
+.emailText,
+.passwordText{
+    color: #000000;
+    font-size: 1em;
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+}
+.emailText:focus,
+.passwordText:focus{
+    border: 1px solid #007bff;
+}
+.submitButton{
+    margin: 20px;
+    padding: 10px;
+    width: 307px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 1em;
+    margin-left: 28px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+.submitButton:hover{
+    background-color: #0056b3;
+}
+.googleButton{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    padding: 10px;
+    width: 307px;
+    height: 47px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1em;
+    margin-left: 28px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #000000;
+}
+.googleButton:hover{
+    background-color: #0000001e;
+}
+.loginOptions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #d30808; */
+    width: 310px;
+    top: 10px;
+}
+.checkboxContainer{
+    display: flex;
+    align-items: center;
+    float: left;
+    margin: 5px;
+    padding: 5px;
+    /* background-color: aquamarine; */
+}
+.checkbox{
+    color: #ffffff;
+    margin-right: 3px;
+    /* background-color: #0056b3; */
+}
+.forgotPassword{
+    float: right;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 300;
+}
+.signup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
