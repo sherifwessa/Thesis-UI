@@ -1,52 +1,62 @@
 import React, { useState } from "react";
-
 import "./App.css";
 import "./loading.css";
 import "./test.css";
-import { MdDonutLarge, MdOutlineContentPasteGo } from "react-icons/md";
+import { MdOutlineContentPasteGo } from "react-icons/md";
 import { LuHardDriveUpload } from "react-icons/lu";
-// import { BoxesLoader } from "react-awesome-loaders";
+import ReactSpeedometer from "react-d3-speedometer"
+import { PiHighlighterCircleDuotone } from "react-icons/pi";
+import Highlighter  from "react-highlight-words";
+import { jsPDF } from 'jspdf';
+import backgroundImage from './blue.png';
 function HomePage() {
   const [essay, setEssay] = useState("");
   const [prompt, setPrompt] = useState("");
-  // const [percentage, setPercentage] = useState(null);
+  const [percentage, setPercentage] = useState(0);
   const [decision, setDecision] = useState("");
+  const [AI_sentences, setAI_sentences] = useState([]);
   const [loading, setLoading] = useState(false);
   const [essayChanged, setEssayChanged] = useState(false);
   const [promptChanged, setPromptChanged] = useState(false);
-  const [result, setResult] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const words = essay.split(" ").length-1;
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      // const response = await fetch('API_ENDPOINT', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ essay })
-      // });
-      // if (!response.ok) {
-      //   throw new Error('Failed to fetch data');
-      // }
-      // const data = await response.json();
-      // // setLoading(true);
-      // // setPercentage(data.percentage);
-      // setDecision(data.decision);
-      const data = { decision: "Human-written" };
-      // // setPercentage(data.percentage);
-      setDecision(data.decision);
+    setLoading(true);
+
+    if (!essay.trim()) {
       setLoading(false);
+      setErrorMessage("Essay cannot be empty.");
+      return;
+  }
+  if (words > 1000) {
+      setLoading(false);
+      setErrorMessage("Essay cannot exceed 1000 words.");
+      return;
+  }
+    try {
+      setTimeout(() => {
+        const data = { decision: "AI-generated", percentage: 65, AI_sentences: ["Technology continues to evolve at a staggering pace, reshaping industries and altering how we interact with the world around us", "the impact is profound. Advancements in medical technology improve patient care through more precise diagnostics and personalized treatments, while IoT devices connect and automate everything from homes to entire cities."] };
+        setDecision(data.decision);
+        setPercentage(data.percentage);
+        setAI_sentences(data.AI_sentences);
+        setErrorMessage("");
+        setLoading(false);
+      }, 3000);
     } catch (error) {
       console.error("Error:", error);
+      setLoading(false);
+      setErrorMessage("An error occurred. Please try again later.");
     }
   };
+
   const handleEssayChange = (event) => {
     const newText = event.target.value;
     setEssay(newText);
-
     setEssayChanged(newText.trim().length > 0);
   };
+
   const handlePromptChange = (event) => {
     const newText = event.target.value;
     setPrompt(newText);
@@ -67,63 +77,166 @@ function HomePage() {
 
   const handleUpload = (event) => {
     const files = event.target.files;
-    console.log(files); // Check if files is defined
     if (!files || files.length === 0) {
       console.log("No files selected");
-      return; // If no files selected, do nothing
+      return;
     }
     const file = files[0];
-    console.log(file); // Check if file is defined
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target.result;
-      console.log(text); // Check the content of the text read from the file
       setEssay(text);
       setEssayChanged(true);
     };
     reader.readAsText(file);
   };
 
-  const scrollToTargetDiv = () => {
-    const targetDiv = document.getElementById("res");
-    if (targetDiv) {
-      targetDiv.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
-  return (
-    <div className="content">
-      {!loading && (
+  function exportPDF(essay, content) {
+    const doc = new jsPDF();
+    const margin = 10; 
+    const initialHeight = 20; 
+    const lineHeight = 10;
+
+  
+    doc.setFontSize(18);
+    doc.text("Detection Result", margin, initialHeight);
+    doc.setFontSize(14);
+    doc.text(`Decision: ${content.decision}`, margin, initialHeight + 2 * lineHeight);
+    doc.text(`Confidence: ${content.percentage}%`, margin, initialHeight + 3 * lineHeight);
+
+    const essayStartHeight = initialHeight + 5 * lineHeight;
+    doc.setFontSize(12);
+    doc.text(doc.splitTextToSize(essay, 190), margin, essayStartHeight);
+    doc.save('detection-result.pdf');
+}
+
+
+  if (loading) {
+    return (
+      <div className="load" style={{ backgroundImage: `url(${backgroundImage})`}}>
+        <div className="loading">
+          <div className="box">
+            <div className="plane"></div>
+          </div>
+          <h2t>Please wait...this may take a while!</h2t>
+        </div>
+      </div>
+    );
+  } else if (decision) {
+    return (
+      <div className="result">
+        <div className="percentage">
+        
+        {/* <h2t>Your text is most likely   {decision}</h2t> */}
+        <ReactSpeedometer
+        width= {400}
+        height={250} 
+        value={percentage}
+        currentValueText="Score"
+        needleColor="#007bff"
+        maxValue={100}
+        maxSegmentLabels={5}
+        customSegmentStops={[0, 20, 40, 60, 80, 100]}
+        startColor="#32CD32"
+        endColor="#C70039"
+        textColor="#ffffff"
+        // customSegmentLabels={[
+        //   {
+        //     text: "Strongly AI",
+        //     position: "OUTSIDE",
+        //     color: "#555",
+        //   },
+        //   {
+        //     text: "AI-generated",
+        //     position: "OUTSIDE",
+        //     color: "#555",
+        //   },
+        //   {
+        //     text: "Ok",
+        //     position: "INSIDE",
+        //     color: "#555",
+        //     fontSize: "19px",
+        //   },
+        //   {
+        //     text: "Human-generated",
+        //     position: "OUTSIDE",
+        //     color: "#555",
+        //   },
+        //   {
+        //     text: "Strongly Human",
+        //     position: "OUTSIDE",
+        //     color: "#555",
+        //   },
+        // ]}
+      />
+        <h3t>{percentage}% {decision}</h3t>
+        </div>
+        <div className="highlighted">
+          <div className="highlighted-header">
+          <PiHighlighterCircleDuotone className="highlighterIcon"/>
+          <h3>Highlighted text is suspected to be {decision}*</h3>
+          </div>
+          <div className="essay-highlighted">
+          <Highlighter
+            highlightClassName="YourHighlightClass"
+            searchWords={AI_sentences}
+            autoEscape={true}
+            textToHighlight={essay} />
+        </div>
+        <div className="highlighted-footer">
+        <button className="returnToHome" onClick={() => window.location.reload()}>
+          Return to Home
+        </button>
+        <button className="ExportToPDF" onClick={() => exportPDF(essay, { decision, percentage })}>
+    Export to PDF
+</button>
+
+        </div>
+          </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "100%"}}>
+    
+      <div className="content">
         <div className="essay">
           <h2>Essay</h2>
           <textarea
             className="essayText"
             value={essay}
             onChange={handleEssayChange}
-            placeholder="Paste your essay here..."
+            placeholder="Paste or upload your essay..."
             rows={15}
           />
+          <div className="wordCount">
+                  
+                <p> {words} / 1000</p>
+            </div>
+            {errorMessage && <div className="error">{errorMessage}</div>}
           <br />
           {!essayChanged && (
             <div className="essaybuttons">
               <button className="pasteButton" onClick={handlePaste}>
                 <MdOutlineContentPasteGo size="40px" />
+                <h5t>Paste</h5t>
               </button>
 
               <label className="fileLabel">
-                <LuHardDriveUpload size={"40px"} />{" "}
+                <LuHardDriveUpload size="40px" />
+                
                 <input
                   type="file"
-                  accept=".txt"
+                  accept=".txt, .docx, .pdf"
                   onChange={handleUpload}
                   style={{ display: "none" }}
                 />
+                <h5t>Upload</h5t>
               </label>
             </div>
           )}
         </div>
-      )}
-      {!loading && (
         <div className="prompt">
           <form onSubmit={handleSubmit}>
             <h2>Prompt (optional)</h2>
@@ -131,7 +244,7 @@ function HomePage() {
               className="promptText"
               value={prompt}
               onChange={handlePromptChange}
-              placeholder="Enter the prompt here..."
+              placeholder="Enter the prompt for advanced detection..."
               rows={5}
               cols={50}
             />
@@ -141,41 +254,16 @@ function HomePage() {
               </button>
             )}
             <div>
-              <button
-                className="detectButton"
-                type="submit"
-                onClick={() => {
-                  setLoading(false);
-                  scrollToTargetDiv();
-                }}
-              >
+              <button className="detectButton" type="submit">
                 Detect
               </button>
             </div>
           </form>
         </div>
-      )}
-
-      {!loading && decision !== null && (
-        <div className="result" id="res">
-          <div className="loading">
-            <div class="box">
-              <div class="plane"></div>
-            </div>
-            <h2t>Please wait...this may take a while!</h2t>
-          </div>
-          <div></div>
-          {/* <h2>Result:</h2> */}
-          {/* <p>Percentage: {percentage}%</p> */}
-
-          {/* <p>{decision}</p> */}
-        </div>
-      )}
-      {/* <div className="loading-container">
-            <div className="loading-spinner"></div>
-            </div> */}
-    </div>
-  );
+      </div>
+      </div>
+    );
+  }
 }
 
 export default HomePage;
