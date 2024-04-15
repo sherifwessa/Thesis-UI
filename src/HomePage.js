@@ -114,7 +114,7 @@ function HomePage() {
 
   if (loading) {
     return (
-      <div className="load" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "1000px"}}>
+      <div className="load" style={{ backgroundImage: `url(${backgroundImage})` , backgroundSize:"cover", backgroundPosition:"center", width: "100%", height:"100vh"}}>
         <div className="loading">
           <div className="box">
             <div className="plane"></div>
@@ -198,7 +198,7 @@ function HomePage() {
     );
   } else {
     return (
-      <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "1000px"}}>
+      <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , backgroundSize:"cover", backgroundPosition:"center", width: "100%", height:"100vh"}}>
     
       <div className="content">
         <div className="essay">

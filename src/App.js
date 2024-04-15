@@ -41,14 +41,14 @@ function App() {
             <Route path="/paper" element={<PaperPage />} />
           </Routes>
         </div>
-        {/* <footer className='footer'>  */}
-        {/* <div className="footer"> */}
+        <footer className='footer'> 
+        <div className="footer">
 
             {/* <PiDetectiveBold className="icon" /> */}
-            {/* <img src={logo2} alt="logo2"style={{width:"100px"}}/> */}
-          {/* </div> */}
-          {/* <h4t>privacy policy  | terms of service | contact us</h4t> */}
-        {/* </footer> */}
+            <img src={logo2} alt="logo2"style={{width:"100px"}}/>
+          </div>
+          <h4t>privacy policy  | terms of service | contact us</h4t>
+        </footer>
       </div>
     </Router>
   );
