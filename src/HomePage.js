@@ -114,7 +114,7 @@ function HomePage() {
 
   if (loading) {
     return (
-      <div className="load" style={{ backgroundImage: `url(${backgroundImage})`}}>
+      <div className="load" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "1000px"}}>
         <div className="loading">
           <div className="box">
             <div className="plane"></div>
