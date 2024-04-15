@@ -8,7 +8,7 @@ import ReactSpeedometer from "react-d3-speedometer"
 import { PiHighlighterCircleDuotone } from "react-icons/pi";
 import Highlighter  from "react-highlight-words";
 import { jsPDF } from 'jspdf';
-import backgroundImage from './blue.png';
+import backgroundImage from './blue3.png';
 function HomePage() {
   const [essay, setEssay] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -198,7 +198,7 @@ function HomePage() {
     );
   } else {
     return (
-      <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "100%"}}>
+      <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "1000px"}}>
     
       <div className="content">
         <div className="essay">
