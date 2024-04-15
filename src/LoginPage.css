@@ -34,13 +34,13 @@ h3{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 470px;
-    width: 500px;
+    /* height: 470px;
+    width: 500px; */
     background-color: #4a82eb32;
-    margin-top: 10px;
+    /* margin-top: 10px;
     margin-bottom: 80px; 
     margin-left: 500px ;
-    margin-right: 80px ;
+    margin-right: 80px ; */
     border-radius: 8px;
     padding-top: 20px;
     padding-bottom: 20px;
