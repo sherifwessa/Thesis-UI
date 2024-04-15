@@ -1,12 +1,12 @@
 import React from "react";
 import "./LoginPage.css";
-import backgroundImage from './blue.png';
+import backgroundImage from './blue3.png';
 import googlelogo from './google2.png';
 import logo from './logoNoBG.png';
 // import { Checkbox } from '@mui';
 function LoginPage() {
   return (
-    <div className="mainContainer" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "100%"}}>
+    <div className="mainContainer" style={{ backgroundImage: `url(${backgroundImage})` , width: "100%", height: "1000px"}}>
         <h1>Login</h1>
     <div className="loginContainer">
     
