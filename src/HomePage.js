@@ -45,7 +45,7 @@ function HomePage() {
       return;
   }
     try {
-      const response = await fetch("http://127.0.0.1:8000", {
+      const response = await fetch("http://127.0.0.1:8000/", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function HomePage() {
       body: JSON.stringify({
         essay: essay,
         prompt: !prompt.empty ? prompt : '', 
-        type: active 
+        type: active === 'Basic' ? 'basic' : 'advanced'
       })
     });
 
@@ -62,9 +62,10 @@ function HomePage() {
     }
 
     const data = await response.json();
+    console.log("Data fetched:", data);
     setDecision(data.decision);
     setPercentage(data.percentage);
-    setAI_sentences(data.AI_sentences);
+    setAI_sentences(data.ai_sentences || []);
     setErrorMessage("");
     setLoading(false);
     } catch (error) {
@@ -160,7 +161,7 @@ function HomePage() {
         <ReactSpeedometer
         width= {400}
         height={250} 
-        value={percentage}
+        value={percentage*100}
         currentValueText="Score"
         needleColor="#007bff"
         maxValue={100}
@@ -198,20 +199,26 @@ function HomePage() {
         //   },
         // ]}
       />
-        <h3t>{percentage}% {decision}</h3t>
+        <h3t>{(percentage * 100).toFixed(0)}% {decision}</h3t>
         </div>
         <div className="highlighted">
           <div className="highlighted-header">
           <PiHighlighterCircleDuotone className="highlighterIcon"/>
-          <h3>Highlighted text is suspected to be {decision}*</h3>
+          <h3>Highlighted text is suspected to be AI-generated*</h3>
           </div>
           <div className="essay-highlighted">
-          <Highlighter
-            highlightClassName="YourHighlightClass"
-            searchWords={AI_sentences}
-            autoEscape={true}
-            textToHighlight={essay} />
-        </div>
+  {AI_sentences.length > 0 && (
+    <Highlighter
+      highlightClassName="HighlightClass"
+      searchWords={AI_sentences}
+      autoEscape={true}
+      textToHighlight={essay}
+    />
+  )}
+  {AI_sentences.length === 0 && (
+    <p>{essay}</p> // Simply display the essay if nothing to highlight
+  )}
+</div>
         <div className="highlighted-footer">
         <button className="returnToHome" onClick={() => window.location.reload()}>
           Return to Home
@@ -229,23 +236,23 @@ function HomePage() {
       <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , backgroundSize:"cover", backgroundPosition:"center", width: "100%", height:"100vh"}}>
     
       <div className="content">
-        <div className="Toggle">
-          {['Basic', 'Advanced'].map(name => (
-          <button className="toggleButton"
-          key={name}
-          onClick={() => handleClick(name)}
-          style={{
-            flex: 1,
-            backgroundColor: active === name ? '#007bff' : 'transparent',
-            color: active === name ? 'white' : 'black',
-            
-          }}
-        >
-          {name}
-          
-          </button>
-         ))}
-       </div>
+      <div className="Toggle">
+            {['Basic', 'Advanced'].map(name => (
+              <button className="toggleButton"
+                key={name}
+                onClick={() => handleClick(name)}
+                style={{
+                  flex: 1,
+                  backgroundColor: active === name ? (name === 'Basic' ? '#0056b3' : 'green') : 'transparent',
+                  color: 'white'
+
+                }}
+              >
+                {name}
+
+              </button>
+            ))}
+          </div>
         <div className="essay">
           <h2>Essay</h2>
           <textarea
@@ -309,6 +316,20 @@ function HomePage() {
               </button>
             
           </form>
+          </div>
+          <div className="features">
+          <div className="feature1">
+            <h2>High Accuracy Detection</h2>
+          </div>
+          <div className="feature2">
+          <h2>Highlighted AI Text</h2>
+          </div>
+          <div className="feature3">
+          <h2>Multilingual Detection Support</h2>
+          </div>
+          <div className="feature4">
+          </div>
+
           </div>
       </div>
       </div>

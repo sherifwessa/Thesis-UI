@@ -500,7 +500,7 @@ h5t{
 .Toggle{
   display: 'flex';
   border-radius: 20px;
-  background-color: #f0f0f0;
+  background-color: #000000;
   border: 1px solid #000000;
   margin-top: 20px;
   font-size: large;
@@ -513,4 +513,36 @@ h5t{
   cursor: pointer;
   outline: none;
   font-size: medium;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  transition: all 0.5s ease;
+}
+
+.features{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.feature1, .feature2, .feature3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  width: 300px;
+  height: 300px;
+  margin-left: 20px;
+  border-radius: 20px;
+  background-color: #87add397;
+  color: #fff;
+  font-size: larger;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-right: 20px;
+}
+.feature1:hover, .feature2:hover, .feature3:hover {
+  background-color: #007bff;
+  width: 350px;
+  height: 350px;
+  transition: all 0.5s ease; /* Add transition property */
 }
