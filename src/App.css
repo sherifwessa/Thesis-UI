@@ -97,8 +97,8 @@ textarea {
   /* position: fixed; */
   bottom: 30px;
   /* left: 50%; */
-   margin-left: 280px;
-  margin-top: 10px; 
+  margin-left: 20px;
+  margin-top: 10px;
   font-size: 25px;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
@@ -495,4 +495,22 @@ h5t{
   /* border-radius: 10px; */
   /* background-color: #f30000; */
   width: fit-content;
+}
+
+.Toggle{
+  display: 'flex';
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #000000;
+  margin-top: 20px;
+  font-size: large;
+}
+
+.toggleButton{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+  font-size: medium;
 }

@@ -7,8 +7,13 @@ import { LuHardDriveUpload } from "react-icons/lu";
 import ReactSpeedometer from "react-d3-speedometer"
 import { PiHighlighterCircleDuotone } from "react-icons/pi";
 import Highlighter  from "react-highlight-words";
+
+
+
+
 import { jsPDF } from 'jspdf';
 import backgroundImage from './blue3.png';
+
 function HomePage() {
   const [essay, setEssay] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -19,8 +24,12 @@ function HomePage() {
   const [essayChanged, setEssayChanged] = useState(false);
   const [promptChanged, setPromptChanged] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [active, setActive] = useState('Basic');
+  const [promptFlag, setPromptFlag] = useState(false);
   const words = essay.split(" ").length-1;
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -36,14 +45,28 @@ function HomePage() {
       return;
   }
     try {
-      setTimeout(() => {
-        const data = { decision: "AI-generated", percentage: 65, AI_sentences: ["Technology continues to evolve at a staggering pace, reshaping industries and altering how we interact with the world around us", "the impact is profound. Advancements in medical technology improve patient care through more precise diagnostics and personalized treatments, while IoT devices connect and automate everything from homes to entire cities."] };
-        setDecision(data.decision);
-        setPercentage(data.percentage);
-        setAI_sentences(data.AI_sentences);
-        setErrorMessage("");
-        setLoading(false);
-      }, 3000);
+      const response = await fetch("http://127.0.0.1:8000", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        essay: essay,
+        prompt: !prompt.empty ? prompt : '', 
+        type: active 
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setDecision(data.decision);
+    setPercentage(data.percentage);
+    setAI_sentences(data.AI_sentences);
+    setErrorMessage("");
+    setLoading(false);
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);
@@ -89,6 +112,11 @@ function HomePage() {
       setEssayChanged(true);
     };
     reader.readAsText(file);
+  };
+
+  const handleClick = (name) => {
+    setActive(name);
+    setPromptFlag(name === 'Advanced');
   };
 
 
@@ -201,6 +229,23 @@ function HomePage() {
       <div className="Container" style={{ backgroundImage: `url(${backgroundImage})` , backgroundSize:"cover", backgroundPosition:"center", width: "100%", height:"100vh"}}>
     
       <div className="content">
+        <div className="Toggle">
+          {['Basic', 'Advanced'].map(name => (
+          <button className="toggleButton"
+          key={name}
+          onClick={() => handleClick(name)}
+          style={{
+            flex: 1,
+            backgroundColor: active === name ? '#007bff' : 'transparent',
+            color: active === name ? 'white' : 'black',
+            
+          }}
+        >
+          {name}
+          
+          </button>
+         ))}
+       </div>
         <div className="essay">
           <h2>Essay</h2>
           <textarea
@@ -237,8 +282,9 @@ function HomePage() {
             </div>
           )}
         </div>
+        {promptFlag && (
         <div className="prompt">
-          <form onSubmit={handleSubmit}>
+          
             <h2>Prompt (optional)</h2>
             <textarea
               className="promptText"
@@ -253,13 +299,17 @@ function HomePage() {
                 <MdOutlineContentPasteGo size="20px" />
               </button>
             )}
-            <div>
+           
+        </div>
+        )}
+        <div>
+            <form onSubmit={handleSubmit}>
               <button className="detectButton" type="submit">
                 Detect
               </button>
-            </div>
+            
           </form>
-        </div>
+          </div>
       </div>
       </div>
     );
